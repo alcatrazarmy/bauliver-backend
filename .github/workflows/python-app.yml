@@ -17,7 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"   # or whatever version you use
+          python-version: "3.11"   # change if your project uses a different version
 
       - name: Install dependencies
         run: |
@@ -26,4 +26,8 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest || echo "No tests yet"
+          if [ -f pytest.ini ] || [ -d tests ]; then
+            pytest
+          else
+            echo "No tests yet, skipping."
+          fi
