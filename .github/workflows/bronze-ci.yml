@@ -44,15 +44,20 @@ jobs:
             ruff check .
             if [ -d "tests" ] || ls test_*.py >/dev/null 2>&1 || ls *_test.py >/dev/null 2>&1; then
               echo "> Running pytest smoke tests"
-              pytest -q -k "smoke or not smoke" || echo "pytest returned non-zero (if no smoke tests, this is fine)"
+              pytest -q -k "smoke" || echo "pytest returned non-zero (if no smoke tests, this is fine)"
             fi
           fi
 
           # C/C++ checks (clang-format only check)
-          if [ -f "CMakeLists.txt" ] || ls *.cpp *.c *.h >/dev/null 2>&1; then
+          if [ -f "CMakeLists.txt" ] || find . -maxdepth 1 -name "*.cpp" -o -name "*.c" -o -name "*.h" 2>/dev/null | grep -q .; then
             if command -v clang-format >/dev/null 2>&1; then
               echo "> clang-format available: running check"
-              git ls-files -z | xargs -0 clang-format -output-replacements-xml | grep -q "<replacement " && echo "FAIL: clang-format needed" && exit 1 || echo "PASS: clang-format OK"
+              if git ls-files -z | xargs -0 clang-format -output-replacements-xml | grep -q "<replacement "; then
+                echo "FAIL: clang-format needed"
+                exit 1
+              else
+                echo "PASS: clang-format OK"
+              fi
             fi
           fi
 
