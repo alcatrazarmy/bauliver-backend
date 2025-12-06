@@ -33,7 +33,12 @@ class BotConfig:
         """Load configuration from environment variables."""
         github_repo = os.getenv("GITHUB_REPOSITORY", "alcatrazarmy/bauliver-backend")
         repo_parts = github_repo.split("/")
-        repo_name = repo_parts[-1] if len(repo_parts) > 0 else "bauliver-backend"
+        # Use last part if split resulted in multiple parts and last part is non-empty
+        repo_name = (
+            repo_parts[-1]
+            if len(repo_parts) > 1 and repo_parts[-1]
+            else "bauliver-backend"
+        )
 
         return cls(
             github_token=os.getenv("GITHUB_TOKEN"),
