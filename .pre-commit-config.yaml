@@ -7,7 +7,6 @@ repos:
     rev: 23.12.1
     hooks:
       - id: black
-        language_version: python3.11
         args: [--line-length=88]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
@@ -20,7 +19,9 @@ repos:
     rev: v4.5.0
     hooks:
       - id: trailing-whitespace
+        exclude: ^(OutlinesofBauliver.*\.txt|Solar-Bot Bill Reader 3000\.txt|.*\.xlsb|.*\.xlsx|.*\.exe)$
       - id: end-of-file-fixer
+        exclude: ^(OutlinesofBauliver.*\.txt|Solar-Bot Bill Reader 3000\.txt|.*\.xlsb|.*\.xlsx|.*\.exe)$
       - id: check-yaml
       - id: check-added-large-files
         args: [--maxkb=1000]

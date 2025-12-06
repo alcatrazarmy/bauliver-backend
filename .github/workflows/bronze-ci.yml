@@ -41,7 +41,7 @@ jobs:
           if [ -f "pyproject.toml" ] || ls *.py >/dev/null 2>&1; then
             echo "> Python detected: running black/ruff checks"
             black --check .
-            ruff .
+            ruff check .
             if [ -d "tests" ] || ls test_*.py >/dev/null 2>&1 || ls *_test.py >/dev/null 2>&1; then
               echo "> Running pytest smoke tests"
               pytest -q -k "smoke or not smoke" || echo "pytest returned non-zero (if no smoke tests, this is fine)"
