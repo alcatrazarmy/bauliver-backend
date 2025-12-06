@@ -31,10 +31,14 @@ class BotConfig:
     @classmethod
     def from_env(cls) -> "BotConfig":
         """Load configuration from environment variables."""
+        github_repo = os.getenv("GITHUB_REPOSITORY", "alcatrazarmy/bauliver-backend")
+        repo_parts = github_repo.split("/")
+        repo_name = repo_parts[-1] if len(repo_parts) > 0 else "bauliver-backend"
+
         return cls(
             github_token=os.getenv("GITHUB_TOKEN"),
             repo_owner=os.getenv("GITHUB_REPOSITORY_OWNER", "alcatrazarmy"),
-            repo_name=os.getenv("GITHUB_REPOSITORY", "bauliver-backend").split("/")[-1],
+            repo_name=repo_name,
             dry_run=os.getenv("BOT_DRY_RUN", "false").lower() == "true",
         )
 
