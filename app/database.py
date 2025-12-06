@@ -1,6 +1,7 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
 import os
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 # AlloyDB connection string
 DB_URL = os.getenv("DB_URL", "postgresql://postgres:<PASS>@34.41.66.108:5432/postgres")

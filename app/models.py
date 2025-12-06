@@ -1,7 +1,18 @@
-from sqlalchemy import Column, Integer, String, Text, Numeric, DateTime, ForeignKey, JSON
-from sqlalchemy.sql import func
+from sqlalchemy import (
+    JSON,
+    Column,
+    DateTime,
+    ForeignKey,
+    Integer,
+    Numeric,
+    String,
+    Text,
+)
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+
 from .database import Base
+
 
 # USERS (Admins, Reps, Designers, Installers)
 class User(Base):
