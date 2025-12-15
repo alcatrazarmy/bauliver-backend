@@ -145,5 +145,3 @@ def delete_permit(
     
     db.delete(permit)
     db.commit()
-    
-    return None
