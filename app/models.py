@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Numeric, DateTime, ForeignKey, JSON
+from sqlalchemy import Column, Integer, String, Text, Numeric, DateTime, ForeignKey, JSON, Boolean
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from .database import Base
@@ -10,7 +10,9 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     email = Column(String, unique=True, index=True)
-    role = Column(String)
+    hashed_password = Column(String, nullable=False)
+    role = Column(String, default="user")
+    is_active = Column(Boolean, default=True)
     phone = Column(String)
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, onupdate=func.now())
@@ -88,7 +90,7 @@ class Design(Base):
     id = Column(Integer, primary_key=True)
     project_id = Column(Integer, ForeignKey("projects.id"))
     version = Column(Integer)
-    metadata = Column(JSON)
+    design_metadata = Column(JSON)
     ai_notes = Column(Text)
     created_at = Column(DateTime, server_default=func.now())
 
@@ -104,6 +106,23 @@ class Proposal(Base):
     margin = Column(Numeric)
     ai_notes = Column(Text)
     created_at = Column(DateTime, server_default=func.now())
+
+
+# PERMITS
+class Permit(Base):
+    __tablename__ = "permits"
+
+    id = Column(Integer, primary_key=True, index=True)
+    customer_name = Column(String, nullable=False)
+    address = Column(String, nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    system_size_kw = Column(Numeric)
+    status = Column(String, default="pending")
+    pdf_url = Column(String)
+    created_at = Column(DateTime, server_default=func.now())
+    updated_at = Column(DateTime, onupdate=func.now())
+
+    user = relationship("User")
 
 
 # BAULIVER ACTION LOGS
