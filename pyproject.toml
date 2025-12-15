@@ -1,0 +1,37 @@
+# Ruff configuration for bauliver-backend
+# See: https://docs.astral.sh/ruff/
+
+[tool.ruff]
+# Same as Black's default
+line-length = 88
+
+# Assume Python 3.11
+target-version = "py311"
+
+[tool.ruff.lint]
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+# Add more as needed: https://docs.astral.sh/ruff/rules/
+select = ["E", "F", "W", "I", "N", "UP"]
+ignore = []
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Exclude commonly ignored directories.
+exclude = [
+    ".git",
+    ".github",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "*.egg-info",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore E402 (module level import not at top) in Alembic migrations
+"migrations/*.py" = ["E402"]
+# Allow unused imports in __init__.py files
+"__init__.py" = ["F401"]
