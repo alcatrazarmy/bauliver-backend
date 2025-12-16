@@ -6,12 +6,24 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 import os
+import secrets
 
 from app.database import get_db
 from app.models import User
 
 # Security configuration
-SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-change-in-production")
+# IMPORTANT: Set SECRET_KEY environment variable in production!
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    # For development/testing only - generate a random key
+    # In production, this should always be set via environment variable
+    import warnings
+    SECRET_KEY = secrets.token_urlsafe(32)
+    warnings.warn(
+        "SECRET_KEY not set! Using randomly generated key. "
+        "This is OK for development but NOT for production!",
+        UserWarning
+    )
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
