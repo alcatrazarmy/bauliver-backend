@@ -1,52 +1,73 @@
-Bauliver Backend
+# Bauliver Backend
 
 The Bauliver Backend powers the Bauliver Operating System — an infrastructure layer designed to manage permits, inspections, workflows, billing logic, contractor operations, and solar-related data automation.
 This system is engineered for scalability, automation, and speed, supporting both internal teams and external partners.
 
-🏗️ Tech Stack
-Layer	Technology
-Language	Python
-Framework	FastAPI (assumed; update if different)
-ORM / Migrations	SQLAlchemy + Alembic
-Database	PostgreSQL
-CI/CD	GitHub Actions
-Packaging	poetry/pip (update once confirmed)
-✨ Core Features (Current & Planned)
+## 🤖 NEW: Autonomous Bot System
 
-Permit management engine
+**Bauliver now includes a fully autonomous bot system that demonstrates real-world automation capabilities!**
 
-Contractor onboarding + credential management
+The autonomous bot can:
+- **Process permits automatically** - Submit and track permit applications without human intervention
+- **Automate entire projects** - From lead qualification to installation scheduling
+- **Execute complex workflows** - Multi-step automation for construction and solar projects
+- **Demonstrate real autonomy** - See freedom through automation in action
 
-Billing logic (Solar Bot Bill Reader integration)
+[**📖 View the Complete Autonomous Bot Guide →**](./AUTONOMOUS_BOT_GUIDE.md)
 
-Workflow automation
+## 🏗️ Tech Stack
 
-Document processing
+| Layer | Technology |
+|-------|-----------|
+| Language | Python 3.11+ |
+| Framework | FastAPI |
+| ORM / Migrations | SQLAlchemy + Alembic |
+| Database | PostgreSQL / SQLite |
+| Authentication | JWT (python-jose) |
+| CI/CD | GitHub Actions |
+| Packaging | pip |
 
-API endpoints for Bauliver OS UI
+## ✨ Core Features
 
-Admin & role-based access
+✅ **Autonomous Bot System** - NEW! Full automation capabilities
+- Permit processing automation
+- Project workflow automation  
+- Task execution and tracking
+- Workflow creation and management
 
-(Once you consolidate your outline files, we will refine this list.)
+✅ **Authentication & Authorization**
+- User registration and login
+- JWT-based authentication
+- Role-based access control
 
-📁 Project Structure
+✅ **Core Infrastructure** (Planned)
+- Permit management engine
+- Contractor onboarding + credential management
+- Billing logic (Solar Bot Bill Reader integration)
+- Document processing
+- API endpoints for Bauliver OS UI
+
+## 📁 Project Structure
+
+```
 bauliver-backend/
 │
 ├── app/
-│   ├── api/               # Routes
-│   ├── core/              # Settings, config, utilities
-│   ├── models/            # Database models
-│   ├── schemas/           # Pydantic schemas
-│   ├── services/          # Business logic
+│   ├── core/              # Security, config, utilities
+│   ├── routers/           # API routes (auth, bot, etc.)
+│   ├── models.py          # Database models
+│   ├── schemas.py         # Pydantic schemas
+│   ├── database.py        # Database connection
 │   └── main.py            # Application entry point
 │
 ├── migrations/            # Alembic migrations
+│   └── versions/          # Migration files
 ├── .github/workflows/     # CI/CD pipelines
-├── alembic.ini            # Migration settings
-└── README.md              # You're reading this
-
-
-(Queen T note: Update folder names if needed — this is standardized structure.)
+├── alembic.ini           # Migration settings
+├── requirements.txt       # Python dependencies
+├── README.md             # This file
+└── AUTONOMOUS_BOT_GUIDE.md  # Autonomous bot documentation
+```
 
 🚀 Getting Started
 1. Clone the Repository
@@ -133,3 +154,51 @@ Maintain clean commits — your future self will thank you.
 
 Bauliver is designed to bring clarity, efficiency, and automation to construction + solar + permitting operations.
 This backend is the engine that makes the ecosystem run.
+
+## 🤖 Quick Start: Autonomous Bot Demo
+
+See the autonomous bot in action:
+
+```bash
+# 1. Start the server
+uvicorn app.main:app --reload
+
+# 2. Register a user
+curl -X POST http://localhost:8000/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"demo@example.com","password":"demo123","role":"admin"}'
+
+# 3. Login to get token
+curl -X POST http://localhost:8000/auth/login \
+  -d "username=demo@example.com&password=demo123"
+
+# 4. Run the autonomous demo (use your token from step 3)
+curl -X POST http://localhost:8000/bot/demo/build-automation \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE"
+```
+
+[**📖 Full Autonomous Bot Guide →**](./AUTONOMOUS_BOT_GUIDE.md)
+
+## 📚 API Endpoints Summary
+
+### Public Endpoints
+- `GET /` - API information
+- `GET /health` - Health check
+- `GET /bot/status` - Bot system status
+
+### Authentication (`/auth`)
+- `POST /auth/register` - Register new user
+- `POST /auth/login` - Login and get JWT token
+- `GET /auth/me` - Get current user info
+
+### Autonomous Bot (`/bot`) - Requires Authentication
+- `POST /bot/tasks` - Create autonomous task
+- `GET /bot/tasks` - List tasks
+- `POST /bot/tasks/{id}/execute` - Execute task autonomously
+- `POST /bot/workflows` - Create workflow
+- `GET /bot/workflows` - List workflows
+- `POST /bot/demo/build-automation` - **Demo autonomous building in real-life**
+
+---
+
+**This is real autonomous building. This is freedom through automation. This is Bauliver.**
