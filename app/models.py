@@ -90,7 +90,7 @@ class Design(Base):
     id = Column(Integer, primary_key=True)
     project_id = Column(Integer, ForeignKey("projects.id"))
     version = Column(Integer)
-    metadata = Column(JSON)
+    design_metadata = Column(JSON)
     ai_notes = Column(Text)
     created_at = Column(DateTime, server_default=func.now())
 

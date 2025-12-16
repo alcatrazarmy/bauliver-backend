@@ -16,7 +16,7 @@ class UserOut(BaseModel):
     is_active: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Token(BaseModel):
@@ -42,7 +42,7 @@ class BotTaskOut(BaseModel):
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class BotWorkflowCreate(BaseModel):
@@ -64,7 +64,7 @@ class BotWorkflowOut(BaseModel):
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class BotStatusOut(BaseModel):
