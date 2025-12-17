@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Numeric, DateTime, ForeignKey, JSON
+from sqlalchemy import Column, Integer, String, Text, Numeric, DateTime, ForeignKey, JSON, Boolean
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from .database import Base
@@ -10,8 +10,10 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
     role = Column(String)
     phone = Column(String)
+    is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, onupdate=func.now())
 
@@ -88,7 +90,7 @@ class Design(Base):
     id = Column(Integer, primary_key=True)
     project_id = Column(Integer, ForeignKey("projects.id"))
     version = Column(Integer)
-    metadata = Column(JSON)
+    design_metadata = Column(JSON)
     ai_notes = Column(Text)
     created_at = Column(DateTime, server_default=func.now())
 
@@ -114,3 +116,38 @@ class BauliverLog(Base):
     action_type = Column(String)
     details = Column(JSON)
     created_at = Column(DateTime, server_default=func.now())
+
+
+# AUTONOMOUS BOT TASKS
+class BotTask(Base):
+    __tablename__ = "bot_tasks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    task_type = Column(String)  # e.g., "permit_processing", "project_automation", "workflow_execution"
+    status = Column(String, default="pending")  # pending, running, completed, failed
+    input_data = Column(JSON)
+    output_data = Column(JSON)
+    started_at = Column(DateTime)
+    completed_at = Column(DateTime)
+    error_message = Column(Text)
+    created_by = Column(Integer, ForeignKey("users.id"))
+    created_at = Column(DateTime, server_default=func.now())
+    updated_at = Column(DateTime, onupdate=func.now())
+
+    creator = relationship("User")
+
+
+# AUTONOMOUS BOT WORKFLOWS
+class BotWorkflow(Base):
+    __tablename__ = "bot_workflows"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    description = Column(Text)
+    workflow_type = Column(String)  # e.g., "permit_automation", "inspection_scheduling"
+    steps = Column(JSON)  # Workflow steps configuration
+    is_active = Column(Boolean, default=True)
+    success_count = Column(Integer, default=0)
+    failure_count = Column(Integer, default=0)
+    created_at = Column(DateTime, server_default=func.now())
+    updated_at = Column(DateTime, onupdate=func.now())
